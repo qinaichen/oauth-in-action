@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OAuth实战|OAuth认证服务</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        body{
+            padding-top: 60px;
+        }
+        .navbar-inverse{
+            background-color: #322;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="/" class="navbar-brand">OAuth实战: <span class="label label-danger">OAuth 认证服务</span></a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="jumbotron">
+        <h2>客户端信息</h2>
+        <ul th:each="map: ${clients}">
+            <li><b th:text="${map.key}"></b> <code th:text="${map.value}"></code></li>
+        </ul>
+        <h2>服务端信息</h2>
+        <ul>
+            <li><b>authorization_endpoint:</b> <code th:text="${authServer.get('authorizationEndpoint')}"></code></li>
+            <li><b>token_endpoint:</b> <code th:text="${authServer.get('tokenEndpoint')}"></code></li>
+        </ul>
+    </div>
+
+</div>
+
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>
