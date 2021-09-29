@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>认证服务</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <script type="text/javascript" th:src="@{/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <style>
+        body{
+            padding-top: 60px;
+        }
+        .navbar-inverse {
+            background-color: #322;
+        }
+    </style>
+</head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="">OAuth实战: <span class="label label-danger">OAuth 认证服务</span></a>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="jumbotron">
+                <h2>客户端信息</h2>
+                <ul th:each="client : ${clients}">
+                    <li><b>client_id:</b> <code th:text="${client.get('client_id')}"></code></li>
+                    <li><b>client_secret:</b> <code th:text="${client.get('client_secret')}"></code></li>
+                    <li><b>scope:</b> <code th:text="${client.get('scope')}"></code></li>
+                    <li><b>redirect_uri:</b> <code th:text="${client.get('redirect_uris')}"></code></li>
+                </ul>
+
+                <h2>服务信息</h2>
+                <ul>
+                    <li><b>authorization_endpoint:</b> <code th:text="${authServer.get('authorizationEndpoint')}"> </code></li>
+                    <li><b>token_endpoint:</b> <code th:text="${authServer.get('tokenEndpoint')}"></code></li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>
