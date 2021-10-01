@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>授权</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <script type="text/javascript" th:src="@{/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <style>
+        body{
+            padding-top: 60px;
+        }
+        .navbar-inverse{
+            background-color: #322;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="">OAuth实战: <span class="label label-danger">OAuth 认证服务</span></a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="jumbotron">
+            <h2>授权该客户端</h2>
+            <p th:if="${client.containsKey('client_name')}">
+                <b>Name:</b> <code th:text="${client.get('client_name')}"></code>
+            </p>
+            <p>
+                <b>ID:</b>
+                <code th:text="${client.get('client_id ')}"></code>
+            </p>
+            <p th:if="${client.containsKey('client_uri')}">
+                <b>URI:</b> <code th:text="${client.get('client_uri')}"></code>
+            </p>
+
+            <p th:if="${client.containsKey('logo_uri')}">
+                <b>logo:</b> <img th:src="@{client.get('logo_uri')}" alt="">
+            </p>
+
+            <form class="form" th:action="@{/approve}" method="post">
+                <input type="hidden" name="reqId" th:value="${reqId}">
+
+            </form>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
