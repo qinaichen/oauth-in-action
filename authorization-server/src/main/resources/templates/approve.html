@@ -30,24 +30,32 @@
     <div class="container">
         <div class="jumbotron">
             <h2>授权该客户端</h2>
-            <p th:if="${client.containsKey('client_name')}">
-                <b>Name:</b> <code th:text="${client.get('client_name')}"></code>
+            <p th:if="${client.clientName}">
+                <b>Name:</b> <code th:text="${client.clientName}"></code>
             </p>
             <p>
                 <b>ID:</b>
-                <code th:text="${client.get('client_id ')}"></code>
+                <code th:text="${client.clientId}"></code>
             </p>
-            <p th:if="${client.containsKey('client_uri')}">
-                <b>URI:</b> <code th:text="${client.get('client_uri')}"></code>
+            <p th:if="${client.clientUri}">
+                <b>URI:</b> <code th:text="${client.clientUri}"></code>
             </p>
 
-            <p th:if="${client.containsKey('logo_uri')}">
-                <b>logo:</b> <img th:src="@{client.get('logo_uri')}" alt="">
+            <p th:if="${client.logoUri}">
+                <b>logo:</b> <img th:src="@{${client.logoUri}}" alt="">
             </p>
 
             <form class="form" th:action="@{/approve}" method="post">
                 <input type="hidden" name="reqId" th:value="${reqId}">
-
+                <p th:if="${client.scope.size()>0}">The client is requesting access to the following:</p>
+                <ul th:if="${client.scope.size()>0}">
+                    <li th:each="scopeItem: ${client.scope}">
+                        <input type="checkbox" th:name="'scope_'+${scopeItem}" th:id="'scope_'+${scopeItem}" checked="checked">
+                        <label th:for="'scope_'+${scopeItem}" th:text="${scopeItem}"></label>
+                    </li>
+                </ul>
+                <input type="submit" class="btn btn-success" name="approve" value="授权">
+                <input type="submit" class="btn btn-danger" name="deny" value="拒绝">
             </form>
         </div>
     </div>

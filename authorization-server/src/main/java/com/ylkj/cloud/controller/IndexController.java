@@ -4,6 +4,7 @@ import cn.hutool.core.net.url.UrlBuilder;
 import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
+import com.ylkj.cloud.model.Client;
 import com.ylkj.cloud.service.AuthorizationService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author Administrator
@@ -44,14 +46,14 @@ public class IndexController {
             model.addAttribute("error","Unknown client");
             return "error";
         }
-        List<JSONObject> clients = this.authorizationService.getClients();
-        Optional<JSONObject> first = clients.stream().filter(item -> item.getString("client_id").equals(clientId)).findFirst();
+        List<Client> clients = this.authorizationService.getClients();
+        Optional<Client> first = clients.stream().filter(item -> item.getClientId().equals(clientId)).findFirst();
         if(!first.isPresent()){
             model.addAttribute("error","Unknown client");
             return "error";
         }
         String redirectUri = request.getParameter("redirect_uri");
-        ArrayList<String> redirectUris = first.get().getObject("redirect_uris", ArrayList.class);
+        List<String> redirectUris = first.get().getRedirectUris();
         if(!redirectUris.contains(redirectUri)){
             model.addAttribute("error","Invalid redirect URI");
             return "error";
@@ -60,8 +62,7 @@ public class IndexController {
         String scope = request.getParameter("scope");
         String[] splits = scope.split(" ");
         ArrayList<String> cScopes = Lists.newArrayList(splits);
-        String serverScope = first.get().getString("scope");
-        ArrayList<String> serverScopes = Lists.newArrayList(serverScope.split(" "));
+        Set<String> serverScopes = first.get().getScope();;
         boolean isSub = CollectionUtils.isSubCollection(cScopes, serverScopes);
         if(!isSub){
             try {

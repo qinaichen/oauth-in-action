@@ -29,16 +29,16 @@
             <div class="jumbotron">
                 <h2>客户端信息</h2>
                 <ul th:each="client : ${clients}">
-                    <li><b>client_id:</b> <code th:text="${client.get('client_id')}"></code></li>
-                    <li><b>client_secret:</b> <code th:text="${client.get('client_secret')}"></code></li>
-                    <li><b>scope:</b> <code th:text="${client.get('scope')}"></code></li>
-                    <li><b>redirect_uri:</b> <code th:text="${client.get('redirect_uris')}"></code></li>
+                    <li><b>client_id:</b> <code th:text="${client.clientId}"></code></li>
+                    <li><b>client_secret:</b> <code th:text="${client.clientSecret}"></code></li>
+                    <li><b>scope:</b> <code th:text="${client.scope}"></code></li>
+                    <li><b>redirect_uri:</b> <code th:text="${client.redirectUris}"></code></li>
                 </ul>
 
                 <h2>服务信息</h2>
                 <ul>
-                    <li><b>authorization_endpoint:</b> <code th:text="${authServer.get('authorizationEndpoint')}"> </code></li>
-                    <li><b>token_endpoint:</b> <code th:text="${authServer.get('tokenEndpoint')}"></code></li>
+                    <li><b>authorization_endpoint:</b> <code th:text="${authServer.authorizationEndpoint}"> </code></li>
+                    <li><b>token_endpoint:</b> <code th:text="${authServer.tokenEndpoint}"></code></li>
                 </ul>
             </div>
         </div>
