@@ -2,7 +2,6 @@ package com.ylkj.cloud.controller;
 
 import cn.hutool.core.net.url.UrlBuilder;
 import cn.hutool.core.util.RandomUtil;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.ylkj.cloud.model.Client;
 import com.ylkj.cloud.service.AuthorizationService;
@@ -12,14 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Administrator
@@ -31,6 +28,13 @@ public class IndexController {
     @Autowired
     private AuthorizationService authorizationService;
 
+    private Set<String> requests = new HashSet<>();
+
+    /**
+     * 首页
+     * @param model
+     * @return
+     */
     @GetMapping("/")
     public String index(Model model){
         model.addAttribute("clients",this.authorizationService.getClients());
@@ -38,7 +42,12 @@ public class IndexController {
         return "index";
     }
 
-
+    /**
+     * 请求授权
+     * @param request
+     * @param model
+     * @return
+     */
     @GetMapping("/authorize")
     public String authorize(HttpServletRequest request,Model model){
         String clientId = request.getParameter("client_id");
@@ -77,9 +86,20 @@ public class IndexController {
             }
         }
         String requestId = RandomUtil.randomString(8);
+        requests.add(requestId);
         model.addAttribute("client",first.get());
         model.addAttribute("reqId",requestId);
         model.addAttribute("scope",cScopes);
         return "approve";
+    }
+
+    @PostMapping("/approve")
+    public String approve(HttpServletRequest request,Model model){
+        String reqId = request.getParameter("reqId");
+        if(!requests.contains(reqId)){
+            model.addAttribute("error","No matching authorization request");
+            return "error";
+        }
+        return null;
     }
 }
